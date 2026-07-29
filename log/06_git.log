@@ -1,0 +1,21 @@
+unji09070981@c3r6s4 Codyssey-E1-1 % 
+unji09070981@c3r6s4 Codyssey-E1-1 % git --version
+git version 2.53.0
+unji09070981@c3r6s4 Codyssey-E1-1 % git config --list
+credential.helper=osxkeychain
+user.name=정은지
+user.email=unji0907@naver.com
+init.defaultbranch=main
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=https://github.com/unji09/Codyssey-E1-1.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+unji09070981@c3r6s4 Codyssey-E1-1 % git remote -v
+origin	https://github.com/unji09/Codyssey-E1-1.git (fetch)
+origin	https://github.com/unji09/Codyssey-E1-1.git (push)

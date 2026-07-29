@@ -1,0 +1,28 @@
+unji09070981@c3r6s4 test % ls -al
+total 8
+drwxr-xr-x  4 unji09070981  unji09070981  128 Jul 29 16:44 .
+drwx------+ 6 unji09070981  unji09070981  192 Jul 29 16:27 ..
+-rw-r--r--  1 unji09070981  unji09070981    9 Jul 29 16:28 test.txt
+drwxr-xr-x  2 unji09070981  unji09070981   64 Jul 29 16:44 tmp
+unji09070981@c3r6s4 test % cat test.txt
+codyssey
+unji09070981@c3r6s4 test % chmod 000 test.txt
+unji09070981@c3r6s4 test % ls -al
+total 8
+drwxr-xr-x  4 unji09070981  unji09070981  128 Jul 29 16:44 .
+drwx------+ 6 unji09070981  unji09070981  192 Jul 29 16:27 ..
+----------  1 unji09070981  unji09070981    9 Jul 29 16:28 test.txt
+drwxr-xr-x  2 unji09070981  unji09070981   64 Jul 29 16:44 tmp
+unji09070981@c3r6s4 test % cat test.txt 
+cat: test.txt: Permission denied
+unji09070981@c3r6s4 test % cd tmp 
+unji09070981@c3r6s4 tmp % cd ..
+unji09070981@c3r6s4 test % chmod 000 tmp
+unji09070981@c3r6s4 test % ls -al
+total 8
+drwxr-xr-x  4 unji09070981  unji09070981  128 Jul 29 16:44 .
+drwx------+ 6 unji09070981  unji09070981  192 Jul 29 16:27 ..
+----------  1 unji09070981  unji09070981    9 Jul 29 16:28 test.txt
+d---------  2 unji09070981  unji09070981   64 Jul 29 16:44 tmp
+unji09070981@c3r6s4 test % cd tmp 
+cd: permission denied: tmp

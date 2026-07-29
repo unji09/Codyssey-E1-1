@@ -1,0 +1,54 @@
+unji09070981@c3r6s4 Codyssey-E1-1 % docker build -t web-test:1.0 .
+[+] Building 4.5s (7/7) FINISHED                                docker:orbstack
+ => [internal] load build definition from Dockerfile                       0.1s
+ => => transferring dockerfile: 316B                                       0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine            0.8s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.1s
+ => => transferring context: 354B                                          0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:4a73073bd557c65b7595  2.8s
+ => => resolve docker.io/library/nginx:alpine@sha256:4a73073bd557c65b7595  0.1s
+ => => sha256:4a73073bd557c65b759505da037898b61f1be6cbc 10.33kB / 10.33kB  0.0s
+ => => sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860b 3.85MB / 3.85MB  0.4s
+ => => sha256:1d40e3eb3bf4f138de1d67193f2aa5309fcaf343eb5 2.50kB / 2.50kB  0.0s
+ => => sha256:f0ba77f796e57c6fa89ae7f4fdad1665d6fcbd8e3 12.32kB / 12.32kB  0.0s
+ => => sha256:3cd534fe98c64d68a1f4f1c83abb8d5cba7ecfd7be8 1.89MB / 1.89MB  0.5s
+ => => sha256:1223f016b4e4a2c21f7c49d4837fbfd47a9da6436b51169 627B / 627B  0.6s
+ => => extracting sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f  0.2s
+ => => sha256:62bec68d7c31c4c8a19d812d84da5f7748e54690c037979 957B / 957B  0.7s
+ => => extracting sha256:3cd534fe98c64d68a1f4f1c83abb8d5cba7ecfd7be88e592  0.1s
+ => => sha256:46f977ee452f4399c208714afa034868d6056864f8a0cf3 404B / 404B  0.8s
+ => => sha256:390dc935348d8070e695fbaae2a4bb114fb9e69c59f 1.40kB / 1.40kB  1.0s
+ => => sha256:d0008c891db48b5f526d914bce9e8d889fe1a9d1f08 1.21kB / 1.21kB  0.9s
+ => => extracting sha256:1223f016b4e4a2c21f7c49d4837fbfd47a9da6436b511690  0.0s
+ => => extracting sha256:62bec68d7c31c4c8a19d812d84da5f7748e54690c0379799  0.0s
+ => => sha256:46519e7231d2eb5604df229beb44d59719a489eaa 20.31MB / 20.31MB  1.4s
+ => => extracting sha256:46f977ee452f4399c208714afa034868d6056864f8a0cf3c  0.0s
+ => => extracting sha256:d0008c891db48b5f526d914bce9e8d889fe1a9d1f08291ae  0.0s
+ => => extracting sha256:390dc935348d8070e695fbaae2a4bb114fb9e69c59f628e7  0.0s
+ => => extracting sha256:46519e7231d2eb5604df229beb44d59719a489eaa7aca529  0.4s
+ => [2/2] COPY app/ /usr/share/nginx/html/                                 0.2s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.1s
+ => => writing image sha256:4e2d2aea74e5ed9a894993be746cba3dcc4f3fe06f4ac  0.0s
+ => => naming to docker.io/library/web-test:1.0                            0.0s
+unji09070981@c3r6s4 Codyssey-E1-1 % docker images | grep web-test
+web-test      1.0       4e2d2aea74e5   6 seconds ago   62.4MB
+unji09070981@c3r6s4 Codyssey-E1-1 % docker run -d -p 8080:80 --name web-8080 web-test:1.0
+4cbfcf22c21c061972c96e186a583d9cb11fe70d5c2655ffb35e7157f5b1ed13
+unji09070981@c3r6s4 Codyssey-E1-1 % curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Codyssey E1-1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Codyssey E1-1</h1>
+</body>
+</html>
+unji09070981@c3r6s4 Codyssey-E1-1 % docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS                   PORTS                                     NAMES
+4cbfcf22c21c   web-test:1.0   "/docker-entrypoint.…"   3 minutes ago   Up 3 minutes (healthy)   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-8080

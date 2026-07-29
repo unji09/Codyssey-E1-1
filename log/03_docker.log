@@ -1,0 +1,292 @@
+unji09070981@c3r6s4 test % docker --version
+Docker version 28.5.2, build ecc6942
+unji09070981@c3r6s4 ~ % docker info
+Client:
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/unji09070981/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/unji09070981/.docker/cli-plugins/docker-compose
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 28.5.2
+ Storage Driver: overlay2
+  Backing Filesystem: btrfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc version: d842d7719497cc3b774fd71620278ac9e17710e0
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.17.8-orbstack-00308-g8f9c941121b1
+ Operating System: OrbStack
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 6
+ Total Memory: 15.67GiB
+ Name: orbstack
+ ID: 26bfe9fc-a67f-42d8-9bf7-ce7e06f40708
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Product License: Community Engine
+ Default Address Pools:
+   Base: 192.168.97.0/24, Size: 24
+   Base: 192.168.107.0/24, Size: 24
+   Base: 192.168.117.0/24, Size: 24
+   Base: 192.168.147.0/24, Size: 24
+   Base: 192.168.148.0/24, Size: 24
+   Base: 192.168.155.0/24, Size: 24
+   Base: 192.168.156.0/24, Size: 24
+   Base: 192.168.158.0/24, Size: 24
+   Base: 192.168.163.0/24, Size: 24
+   Base: 192.168.164.0/24, Size: 24
+   Base: 192.168.165.0/24, Size: 24
+   Base: 192.168.166.0/24, Size: 24
+   Base: 192.168.167.0/24, Size: 24
+   Base: 192.168.171.0/24, Size: 24
+   Base: 192.168.172.0/24, Size: 24
+   Base: 192.168.181.0/24, Size: 24
+   Base: 192.168.183.0/24, Size: 24
+   Base: 192.168.186.0/24, Size: 24
+   Base: 192.168.207.0/24, Size: 24
+   Base: 192.168.214.0/24, Size: 24
+   Base: 192.168.215.0/24, Size: 24
+   Base: 192.168.216.0/24, Size: 24
+   Base: 192.168.223.0/24, Size: 24
+   Base: 192.168.227.0/24, Size: 24
+   Base: 192.168.228.0/24, Size: 24
+   Base: 192.168.229.0/24, Size: 24
+   Base: 192.168.237.0/24, Size: 24
+   Base: 192.168.239.0/24, Size: 24
+   Base: 192.168.242.0/24, Size: 24
+   Base: 192.168.247.0/24, Size: 24
+   Base: fd07:b51a:cc66:d000::/56, Size: 64
+WARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is setunji09070981@c3r6s4 ~ % docker -- version
+Client:
+ Version:           28.5.2
+ API version:       1.51
+ Go version:        go1.25.3
+ Git commit:        ecc6942
+ Built:             Wed Nov  5 14:42:30 2025
+ OS/Arch:           darwin/amd64
+ Context:           orbstack
+Server: Docker Engine - Community
+ Engine:
+  Version:          28.5.2
+  API version:      1.51 (minimum version 1.24)
+  Go version:       go1.24.9
+  Git commit:       89c5e8f
+  Built:            Wed Nov  5 14:45:42 2025
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          v2.2.0
+  GitCommit:        1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc:
+  Version:          1.3.3
+  GitCommit:        d842d7719497cc3b774fd71620278ac9e17710e0
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+unji09070981@c3r6s4 ~ % docker info
+Client:
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/unji09070981/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/unji09070981/.docker/cli-plugins/docker-compose
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 28.5.2
+ Storage Driver: overlay2
+  Backing Filesystem: btrfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc version: d842d7719497cc3b774fd71620278ac9e17710e0
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.17.8-orbstack-00308-g8f9c941121b1
+ Operating System: OrbStack
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 6
+ Total Memory: 15.67GiB
+ Name: orbstack
+ ID: 26bfe9fc-a67f-42d8-9bf7-ce7e06f40708
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Product License: Community Engine
+ Default Address Pools:
+   Base: 192.168.97.0/24, Size: 24
+   Base: 192.168.107.0/24, Size: 24
+   Base: 192.168.117.0/24, Size: 24
+   Base: 192.168.147.0/24, Size: 24
+   Base: 192.168.148.0/24, Size: 24
+   Base: 192.168.155.0/24, Size: 24
+   Base: 192.168.156.0/24, Size: 24
+   Base: 192.168.158.0/24, Size: 24
+   Base: 192.168.163.0/24, Size: 24
+   Base: 192.168.164.0/24, Size: 24
+   Base: 192.168.165.0/24, Size: 24
+   Base: 192.168.166.0/24, Size: 24
+   Base: 192.168.167.0/24, Size: 24
+   Base: 192.168.171.0/24, Size: 24
+   Base: 192.168.172.0/24, Size: 24
+   Base: 192.168.181.0/24, Size: 24
+   Base: 192.168.183.0/24, Size: 24
+   Base: 192.168.186.0/24, Size: 24
+   Base: 192.168.207.0/24, Size: 24
+   Base: 192.168.214.0/24, Size: 24
+   Base: 192.168.215.0/24, Size: 24
+   Base: 192.168.216.0/24, Size: 24
+   Base: 192.168.223.0/24, Size: 24
+   Base: 192.168.227.0/24, Size: 24
+   Base: 192.168.228.0/24, Size: 24
+   Base: 192.168.229.0/24, Size: 24
+   Base: 192.168.237.0/24, Size: 24
+   Base: 192.168.239.0/24, Size: 24
+   Base: 192.168.242.0/24, Size: 24
+   Base: 192.168.247.0/24, Size: 24
+   Base: fd07:b51a:cc66:d000::/56, Size: 64
+WARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is set
+unji09070981@c3r6s4 test % docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+4f55086f7dd0: Pull complete 
+Digest: sha256:c3cbe1cc1aa588a64951ac6286e0df7b27fe2e6324b1001c619bb358770c0178
+Status: Downloaded newer image for hello-world:latest
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+unji09070981@c3r6s4 test % docker pull ubuntu:22.04
+22.04: Pulling from library/ubuntu
+d6834b4a794c: Pull complete 
+Digest: sha256:0e0a0fc6d18feda9db1590da249ac93e8d5abfea8f4c3c0c849ce512b5ef8982
+Status: Downloaded newer image for ubuntu:22.04
+docker.io/library/ubuntu:22.04
+unji09070981@c3r6s4 test % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
+ubuntu        22.04     b8e6b596a324   4 weeks ago    78.1MB
+hello-world   latest    e2ac70e7319a   4 months ago   10.1kB
+unji09070981@c3r6s4 test % docker run -it --name ubuntu-test ubuntu:22.04 /bin/bash
+root@c66858c15955:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
+root@c66858c15955:/# echo "test"          
+test
+root@c66858c15955:/# exit
+exit
+unji09070981@c3r6s4 test % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+unji09070981@c3r6s4 test % docker ps -a
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS                     PORTS     NAMES
+c66858c15955   ubuntu:22.04   "/bin/bash"   59 seconds ago   Exited (0) 6 seconds ago             ubuntu-test
+22c5d1cfad90   hello-world    "/hello"      2 minutes ago    Exited (0) 2 minutes ago             competent_ptolemy
+unji09070981@c3r6s4 test % docker logs ubuntu-test
+root@c66858c15955:/# ls
+bin   dev  home  lib32  libx32  mnt  proc  run   srv  tmp  var
+boot  etc  lib   lib64  media   opt  root  sbin  sys  usr
+root@c66858c15955:/# echo "test"          
+test
+root@c66858c15955:/# exit
+exit
+unji09070981@c3r6s4 test % docker run -dit --name ubuntu-test ubuntu:22.04
+docker: Error response from daemon: Conflict. The container name "/ubuntu-test" is already in use by container "c66858c159551c7fc6e04e3aab96b85bbe657425ce5511796ac2054618edfdf8". You have to remove (or rename) that container to be able to reuse that name.
+Run 'docker run --help' for more information
+unji09070981@c3r6s4 test % docker run -dit --name ubuntu-test2 ubuntu:22.04
+a71e4dffa43138f4eff24bf1671ca791b8075f5af2d6ddb188de03ac75f913a3
+unji09070981@c3r6s4 test % docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED         STATUS         PORTS     NAMES
+a71e4dffa431   ubuntu:22.04   "/bin/bash"   3 seconds ago   Up 3 seconds             ubuntu-test2
+unji09070981@c3r6s4 test % docker ps -a
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS                     PORTS     NAMES
+a71e4dffa431   ubuntu:22.04   "/bin/bash"   16 seconds ago   Up 16 seconds                        ubuntu-test2
+c66858c15955   ubuntu:22.04   "/bin/bash"   4 minutes ago    Exited (0) 4 minutes ago             ubuntu-test
+22c5d1cfad90   hello-world    "/hello"      6 minutes ago    Exited (0) 6 minutes ago             competent_ptolemy
+unji09070981@c3r6s4 test % docker stats --no-stream
+CONTAINER ID   NAME           CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O     PIDS
+a71e4dffa431   ubuntu-test2   0.00%     3.625MiB / 15.67GiB   0.02%     1.13kB / 126B   4.44MB / 0B   1
+unji09070981@c3r6s4 test % docker stop ubuntu-test2
+ubuntu-test2
+unji09070981@c3r6s4 test % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES

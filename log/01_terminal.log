@@ -1,0 +1,50 @@
+unji09070981@c3r6s4 ~ % pwd
+/Users/unji09070981
+unji09070981@c3r6s4 ~ % ls -al
+total 40
+drwxr-x---+ 20 unji09070981  unji09070981    640 Jul 29 15:59 .
+drwxr-xr-x   6 root          admin           192 Jul 29 15:16 ..
+-r--------   1 unji09070981  unji09070981      7 Jul 29 15:16 .CFUserTextEncoding
+-rw-r--r--@  1 unji09070981  unji09070981  10244 Jul 29 16:19 .DS_Store
+drwx------+  4 unji09070981  unji09070981    128 Jul 29 16:11 .Trash
+drwxr-xr-x   5 unji09070981  unji09070981    160 Jul 29 15:57 .docker
+-rw-------   1 unji09070981  unji09070981     20 Jul 29 15:59 .lesshst
+drwxr-xr-x  10 unji09070981  unji09070981    320 Jul 29 15:57 .orbstack
+drwxr-xr-x   3 unji09070981  unji09070981     96 Jul 29 15:57 .ssh
+drwxr-xr-x   3 unji09070981  unji09070981     96 Jul 29 15:17 .vscode
+drwx------   3 unji09070981  unji09070981     96 Jul 29 15:40 .zsh_sessions
+drwx------+  3 unji09070981  unji09070981     96 Jul 29 15:16 Desktop
+drwx------+  3 unji09070981  unji09070981     96 Jul 29 15:16 Documents
+drwx------+  5 unji09070981  unji09070981    160 Jul 29 16:14 Downloads
+drwx------@ 77 unji09070981  unji09070981   2464 Jul 29 15:57 Library
+drwx------   3 unji09070981  unji09070981     96 Jul 29 15:16 Movies
+drwx------+  3 unji09070981  unji09070981     96 Jul 29 15:16 Music
+drwx------   4 unji09070981  unji09070981    160 Jul 29 16:14 OrbStack
+drwx------+  4 unji09070981  unji09070981    128 Jul 29 15:16 Pictures
+drwxr-xr-x+  4 unji09070981  unji09070981    128 Jul 29 15:16 Public
+unji09070981@c3r6s4 ~ % cd Downloads 
+unji09070981@c3r6s4 Downloads % mkdir test
+unji09070981@c3r6s4 Downloads % cd test 
+unji09070981@c3r6s4 test % pwd
+/Users/unji09070981/Downloads/test
+unji09070981@c3r6s4 test % touch test.txt
+unji09070981@c3r6s4 test % cat test.txt
+unji09070981@c3r6s4 test % vi test.txt 
+unji09070981@c3r6s4 test % cat test.txt
+codyssey
+unji09070981@c3r6s4 test % cp test.txt tmp.txt 
+unji09070981@c3r6s4 test % ls -al
+total 16
+drwxr-xr-x  4 unji09070981  unji09070981  128 Jul 29 16:29 .
+drwx------+ 6 unji09070981  unji09070981  192 Jul 29 16:27 ..
+-rw-r--r--  1 unji09070981  unji09070981    9 Jul 29 16:28 test.txt
+-rw-r--r--  1 unji09070981  unji09070981    9 Jul 29 16:29 tmp.txt
+unji09070981@c3r6s4 test % mkdir tmp
+unji09070981@c3r6s4 test % mv tmp.txt tmp/tmp1.txt
+unji09070981@c3r6s4 test % cd tmp
+unji09070981@c3r6s4 tmp % ls
+tmp1.txt
+unji09070981@c3r6s4 tmp % cd ..
+unji09070981@c3r6s4 test % rm -rf tmp
+unji09070981@c3r6s4 test % ls
+test.txt

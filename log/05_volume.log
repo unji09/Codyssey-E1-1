@@ -1,0 +1,40 @@
+unji09070981@c3r6s4 Codyssey-E1-1 % docker volume create data-test            
+data-test
+unji09070981@c3r6s4 Codyssey-E1-1 % docker volume ls
+DRIVER    VOLUME NAME
+local     data-test
+unji09070981@c3r6s4 Codyssey-E1-1 % docker volume inspect data-test
+[
+    {
+        "CreatedAt": "2026-07-29T19:33:41+09:00",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/data-test/_data",
+        "Name": "data-test",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+unji09070981@c3r6s4 Codyssey-E1-1 % docker run -dit --name volume-test -v data-test:/data ubuntu:22.04 /bin/bash
+c027f03d8adc42193cacc9b3095b97817d8399e7d526ff7d2c518b8ac7198c7d
+unji09070981@c3r6s4 Codyssey-E1-1 % docker exec volume-test ls -ld /data
+drwxr-xr-x 1 root root 0 Jul 29 10:33 /data
+unji09070981@c3r6s4 Codyssey-E1-1 % docker exec volume-test bash -c "echo 'test' > /data/test.txt" 
+unji09070981@c3r6s4 Codyssey-E1-1 % docker exec volume-test cat /data/test.txt
+test
+unji09070981@c3r6s4 Codyssey-E1-1 % docker ps
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS          PORTS     NAMES
+c027f03d8adc   ubuntu:22.04   "/bin/bash"   35 seconds ago   Up 34 seconds             volume-test
+unji09070981@c3r6s4 Codyssey-E1-1 % docker inspect volume-test --format '{{json .Mounts}}'
+[{"Type":"volume","Name":"data-test","Source":"/var/lib/docker/volumes/data-test/_data","Destination":"/data","Driver":"local","Mode":"z","RW":true,"Propagation":""}]
+unji09070981@c3r6s4 Codyssey-E1-1 % docker rm -f volume-test
+volume-test
+unji09070981@c3r6s4 Codyssey-E1-1 % docker ps -a 
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+unji09070981@c3r6s4 Codyssey-E1-1 % docker volume ls
+DRIVER    VOLUME NAME
+local     data-test
+unji09070981@c3r6s4 Codyssey-E1-1 % docker run -dit --name volume-test2 -v data-test:/data ubuntu:22.04 /bin/bash
+a2148672b64ef5c36e7450db21dfd99ce2374618c8daa0ac04ab83278bf6b728
+unji09070981@c3r6s4 Codyssey-E1-1 % docker exec volume-test2 cat /data/test.txt
+test
