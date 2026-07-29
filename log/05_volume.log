@@ -38,3 +38,33 @@ unji09070981@c3r6s4 Codyssey-E1-1 % docker run -dit --name volume-test2 -v data-
 a2148672b64ef5c36e7450db21dfd99ce2374618c8daa0ac04ab83278bf6b728
 unji09070981@c3r6s4 Codyssey-E1-1 % docker exec volume-test2 cat /data/test.txt
 test
+
+unji09070981@c3r6s4 Codyssey-E1-1 % docker run -d -p 8082:80 \
+  -v "$(pwd)/app":/usr/share/nginx/html:ro \
+  --name web-bind web-test:1.0
+291b5e0afaf660cef45c8e99d7288492a7f59e03142dfad6744c38d62b478ea0
+unji09070981@c3r6s4 Codyssey-E1-1 % curl http://localhost:8082
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Codyssey E1-1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Codyssey E1-1</h1>
+</body>
+</html>
+unji09070981@c3r6s4 Codyssey-E1-1 % sed -i '' 's/Codyssey E1-1/Codyssey E1-1 edited on host/' app/index.html
+unji09070981@c3r6s4 Codyssey-E1-1 % curl http://localhost:8082
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Codyssey E1-1 edited on host</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Codyssey E1-1 edited on host</h1>
+</body>
+</html>
