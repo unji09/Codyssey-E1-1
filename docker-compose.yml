@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    image: codyssey-web:1.0
+    container_name: codyssey-web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+    volumes:
+      - ./app:/usr/share/nginx/html
+
+  api:		
+    image: nginx:alpine
+    container_name: codyssey-api

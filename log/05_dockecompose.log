@@ -1,0 +1,182 @@
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose config
+name: codyssey-e1-1
+services:
+  web:
+    build:
+      context: /Users/unji09070981/Desktop/Codyssey-E1-1
+      dockerfile: Dockerfile
+    container_name: codyssey-web
+    environment:
+      APP_ENV: dev
+    image: codyssey-web:1.0
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8080"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: /Users/unji09070981/Desktop/Codyssey-E1-1/app
+        target: /usr/share/nginx/html
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: codyssey-e1-1_default
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose up -d
+[+] Running 1/1
+ ! web Warning pull access denied for codyssey-web, reposi...              2.4s 
+[+] Building 6.9s (9/9) FINISHED                                                
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 534B                                             0.0s
+ => [internal] load build definition from Dockerfile                       0.2s
+ => => transferring dockerfile: 316B                                       0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine            2.5s
+ => [internal] load .dockerignore                                          0.1s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.2s
+ => => transferring context: 354B                                          0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:4a73073bd557c65b7595  3.0s
+ => => resolve docker.io/library/nginx:alpine@sha256:4a73073bd557c65b7595  0.2s
+ => => sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860b 3.85MB / 3.85MB  0.5s
+ => => sha256:4a73073bd557c65b759505da037898b61f1be6cbc 10.33kB / 10.33kB  0.0s
+ => => sha256:1d40e3eb3bf4f138de1d67193f2aa5309fcaf343eb5 2.50kB / 2.50kB  0.0s
+ => => sha256:f0ba77f796e57c6fa89ae7f4fdad1665d6fcbd8e3 12.32kB / 12.32kB  0.0s
+ => => sha256:1223f016b4e4a2c21f7c49d4837fbfd47a9da6436b51169 627B / 627B  0.2s
+ => => sha256:3cd534fe98c64d68a1f4f1c83abb8d5cba7ecfd7be8 1.89MB / 1.89MB  0.7s
+ => => sha256:62bec68d7c31c4c8a19d812d84da5f7748e54690c037979 957B / 957B  0.7s
+ => => extracting sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f  0.1s
+ => => sha256:46f977ee452f4399c208714afa034868d6056864f8a0cf3 404B / 404B  0.8s
+ => => extracting sha256:3cd534fe98c64d68a1f4f1c83abb8d5cba7ecfd7be88e592  0.1s
+ => => sha256:d0008c891db48b5f526d914bce9e8d889fe1a9d1f08 1.21kB / 1.21kB  1.0s
+ => => sha256:390dc935348d8070e695fbaae2a4bb114fb9e69c59f 1.40kB / 1.40kB  1.0s
+ => => sha256:46519e7231d2eb5604df229beb44d59719a489eaa 20.31MB / 20.31MB  1.3s
+ => => extracting sha256:1223f016b4e4a2c21f7c49d4837fbfd47a9da6436b511690  0.0s
+ => => extracting sha256:62bec68d7c31c4c8a19d812d84da5f7748e54690c0379799  0.0s
+ => => extracting sha256:46f977ee452f4399c208714afa034868d6056864f8a0cf3c  0.0s
+ => => extracting sha256:d0008c891db48b5f526d914bce9e8d889fe1a9d1f08291ae  0.0s
+ => => extracting sha256:390dc935348d8070e695fbaae2a4bb114fb9e69c59f628e7  0.0s
+ => => extracting sha256:46519e7231d2eb5604df229beb44d59719a489eaa7aca529  0.4s
+ => [2/2] COPY app/ /usr/share/nginx/html/                                 0.2s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.1s
+ => => writing image sha256:3c925856c987f81b3480f6f2c044c920ce1fa940f6a86  0.0s
+ => => naming to docker.io/library/codyssey-web:1.0                        0.0s
+ => resolving provenance for metadata file                                 0.0s
+[+] Running 3/3
+ ✔ codyssey-web:1.0               Built                                    0.0s 
+ ✔ Network codyssey-e1-1_default  Creat...                                 0.1s 
+ ✔ Container codyssey-web         Started                                  0.5s 
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose ps
+NAME           IMAGE              COMMAND                   SERVICE   CREATED         STATUS                            PORTS
+codyssey-web   codyssey-web:1.0   "/docker-entrypoint.…"   web       7 seconds ago   Up 6 seconds (health: starting)   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose logs web
+codyssey-web  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+codyssey-web  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+codyssey-web  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+codyssey-web  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+codyssey-web  | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+codyssey-web  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+codyssey-web  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+codyssey-web  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+codyssey-web  | /docker-entrypoint.sh: Configuration complete; ready for start up
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: using the "epoll" event method
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: nginx/1.31.3
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0) 
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: OS: Linux 6.17.8-orbstack-00308-g8f9c941121b1
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 20480:1048576
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker processes
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker process 30
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker process 31
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker process 32
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker process 33
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker process 34
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker process 35
+unji09070981@c6r7s3 Codyssey-E1-1 % curl -I http://localhost:8080
+HTTP/1.1 200 OK
+Server: nginx/1.31.3
+Date: Sun, 02 Aug 2026 23:51:29 GMT
+Content-Type: text/html
+Content-Length: 195
+Last-Modified: Sun, 02 Aug 2026 23:43:54 GMT
+Connection: keep-alive
+ETag: "6a6fd63a-c3"
+Accept-Ranges: bytes
+
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose stop
+[+] Stopping 1/1
+ ✔ Container codyssey-web  Stopped                                         0.3s 
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose ps
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose start
+[+] Running 1/1
+ ✔ Container codyssey-web  Started                                         0.4s 
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose down
+[+] Running 2/2
+ ✔ Container codyssey-web         Removed                                  0.2s 
+ ✔ Network codyssey-e1-1_default  Remov...                                 0.1s 
+unji09070981@c6r7s3 Codyssey-E1-1 % docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+unji09070981@c6r7s3 Codyssey-E1-1 % vi docker-compose.yml 
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose ps
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose up -d
+[+] Running 9/9
+ ✔ api Pulled                                                              3.9s 
+   ✔ 55afa1ecc21d Already exists                                           0.0s 
+   ✔ 3cd534fe98c6 Already exists                                           0.0s 
+   ✔ 1223f016b4e4 Already exists                                           0.0s 
+   ✔ 62bec68d7c31 Already exists                                           0.0s 
+   ✔ 46f977ee452f Already exists                                           0.0s 
+   ✔ d0008c891db4 Already exists                                           0.0s 
+   ✔ 390dc935348d Already exists                                           0.0s 
+   ✔ 46519e7231d2 Already exists                                           0.0s 
+[+] Running 3/3
+ ✔ Network codyssey-e1-1_default  Creat...                                 0.1s 
+ ✔ Container codyssey-api         Started                                  0.5s 
+ ✔ Container codyssey-web         Started                                  0.5s 
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose ps
+NAME           IMAGE              COMMAND                   SERVICE   CREATED         STATUS                            PORTS
+codyssey-api   nginx:alpine       "/docker-entrypoint.…"   api       7 seconds ago   Up 6 seconds                      80/tcp
+codyssey-web   codyssey-web:1.0   "/docker-entrypoint.…"   web       7 seconds ago   Up 6 seconds (health: starting)   0.0.0.0:8090->80/tcp, [::]:8090->80/tcp
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose exec web wget -qO- http://api/ | head -5
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+unji09070981@c6r7s3 Codyssey-E1-1 % docker compose logs api
+codyssey-api  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+codyssey-api  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+codyssey-api  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+codyssey-api  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+codyssey-api  | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+codyssey-api  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+codyssey-api  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+codyssey-api  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+codyssey-api  | /docker-entrypoint.sh: Configuration complete; ready for start up
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: using the "epoll" event method
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: nginx/1.31.3
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0) 
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: OS: Linux 6.17.8-orbstack-00308-g8f9c941121b1
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 20480:1048576
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker processes
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 30
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 31
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 32
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 33
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 34
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 35
+codyssey-api  | 192.168.97.3 - - [03/Aug/2026:01:57:15 +0000] "GET / HTTP/1.1" 200 896 "-" "Wget" "-"
+unji09070981@c6r7s3 Codyssey-E1-1 % dyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: OS: Linux 6.17.8-orbstack-00308-g8f9c941121b1
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 20480:1048576
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker processes
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 30
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 31
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 32
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 33
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 34
+codyssey-api  | 2026/08/03 01:56:22 [notice] 1#1: start worker process 35
+codyssey-api  | 192.168.97.3 - - [03/Aug/2026:01:57:15 +0000] "GET / HTTP/1.1" 200 896 "-" "Wget" "-"
