@@ -38,6 +38,14 @@
 - [x] 볼륨 영속성 검증
 - [x] Git 설정 + GitHub / VSCode 연동
 
+### 보너스 과제
+
+- [x] Docker Compose 기초 (단일 서비스 실행)
+- [x] Docker Compose 멀티 컨테이너 및 컨테이너 간 통신 확인
+- [x] Compose 운영 명령 (`up` / `down` / `ps` / `logs`)
+- [x] 환경 변수 주입
+- [x] GitHub SSH 키 설정 및 인증 방식 전환
+
 ---
 
 ## 4. 디렉토리 구조
@@ -47,6 +55,8 @@ Codyssey-E1-1/
 ├── README.md
 ├── .gitignore
 ├── Dockerfile
+├── docker-compose.yml     ← 보너스: 서비스 실행 설정
+├── .env.example           ← 보너스: 환경 변수 형식 (실제 값은 .env, 미커밋)
 ├── app/                   ← 웹 서버 소스코드
 │   ├── index.html
 │   └── style.css
@@ -56,7 +66,9 @@ Codyssey-E1-1/
 │   ├── 03_docker.log
 │   ├── 04_dockerfile.log
 │   ├── 05_volume.log
-│   └── 06_git.log
+│   ├── 06_git.log
+│   ├── 07_compose.log     ← 보너스
+│   └── 08_git_ssh.log     ← 보너스
 ├── image/                 ← 스크린샷 증거
 │   ├── 브라우저접속화면.png
 │   └── 깃허브연동화면.png
@@ -633,12 +645,289 @@ branch.main.merge=refs/heads/main
 ### 보안 조치
 
 - `.gitignore`에 `.DS_Store`, `.env`, `*.pem`, `*.key` 등록
+- 실제 설정값이 담긴 `.env`는 미커밋, 형식만 담은 `.env.example`만 저장소에 포함
+- SSH 개인키(`~/.ssh/id_ed25519`)는 저장소·문서·스크린샷에 미포함. 공개키는 본문에서 마스킹
 - 본 문서의 `git config --list` 출력에서 이메일 주소 마스킹
 - 토큰·비밀번호·개인키는 로그·스크린샷에 미포함
 
 ---
 
-## 14. 트러블슈팅
+## 14. 보너스 과제
+
+전체 로그: [`log/07_compose.log`](log/07_compose.log), [`log/08_git_ssh.log`](log/08_git_ssh.log)
+
+### 14-1. Docker Compose 기초 — 단일 서비스
+
+#### 목적
+`docker run`에 붙이던 실행 옵션을 파일로 옮겨, 실행 설정이 문서화되는 형태 확인
+
+#### docker-compose.yml
+
+```yaml
+services:
+  web:
+    build: .
+    image: codyssey-web:1.0
+    container_name: codyssey-web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+    volumes:
+      - ./app:/usr/share/nginx/html
+```
+
+포트와 실행 모드는 값을 직접 쓰지 않고 `${변수:-기본값}` 형태로 선언. 변수가 없으면 `8080`·`dev`로 해석됨 (상세는 14-2)
+
+기존 `docker run` 옵션과 1:1 대응
+
+| `docker run` 옵션 | Compose 키 |
+|---|---|
+| `-p 8080:80` | `ports` |
+| `-e APP_ENV=dev` | `environment` |
+| `-v "$(pwd)/app":/usr/share/nginx/html` | `volumes` |
+| `--name codyssey-web` | `container_name` |
+| `docker build -t codyssey-web:1.0 .` | `build` + `image` |
+
+#### 설정 검증 및 실행
+
+```bash
+$ docker compose config
+name: codyssey-e1-1
+services:
+  web:
+    build:
+      context: /Users/unji09070981/Desktop/Codyssey-E1-1
+      dockerfile: Dockerfile
+    container_name: codyssey-web
+    environment:
+      APP_ENV: dev
+    image: codyssey-web:1.0
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8080"
+    volumes:
+      - type: bind
+        source: /Users/unji09070981/Desktop/Codyssey-E1-1/app
+        target: /usr/share/nginx/html
+networks:
+  default:
+    name: codyssey-e1-1_default
+
+$ docker compose up -d
+[+] Building 6.9s (9/9) FINISHED
+ => [2/2] COPY app/ /usr/share/nginx/html/                                 0.2s
+ => => naming to docker.io/library/codyssey-web:1.0                        0.0s
+[+] Running 3/3
+ ✔ codyssey-web:1.0               Built
+ ✔ Network codyssey-e1-1_default  Created
+ ✔ Container codyssey-web         Started
+
+$ docker compose ps
+NAME           IMAGE              SERVICE   STATUS                            PORTS
+codyssey-web   codyssey-web:1.0   web       Up 6 seconds (health: starting)   0.0.0.0:8080->80/tcp
+
+$ curl -I http://localhost:8080
+HTTP/1.1 200 OK
+Server: nginx/1.31.3
+Content-Length: 195
+```
+
+#### 확인
+- `config` 출력에서 상대 경로 `./app`이 절대 경로로 해석됨 → `docker run -v`와 달리 `$(pwd)` 불필요
+- `up -d` 한 번으로 이미지 빌드 · 네트워크 생성 · 컨테이너 실행까지 수행
+- 프로젝트명 `codyssey-e1-1`과 네트워크 `codyssey-e1-1_default`가 폴더명 기준으로 자동 생성됨
+
+### 14-2. 환경 변수 주입
+
+#### 목적
+서버 포트와 실행 모드를 설정 파일에 고정하지 않고 외부 값으로 주입
+
+#### 변수 선언 — docker-compose.yml
+
+```yaml
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+```
+
+`${변수:-기본값}` 형식. 변수가 주어지면 그 값으로, 없으면 기본값으로 해석됨. 14-1은 `.env` 도입 전이라 기본값 `8080`·`dev`로 해석된 상태
+
+#### 값 파일
+
+`.env` — 실제 값. `.gitignore`로 제외되어 저장소에 미포함
+
+```
+WEB_PORT=8090
+APP_ENV=dev
+```
+
+`.env.example` — 형식만 담아 저장소에 포함
+
+```
+WEB_PORT=8080
+APP_ENV=dev
+```
+
+Compose는 실행 디렉토리의 `.env`를 자동으로 읽어 `${WEB_PORT}`·`${APP_ENV}`에 대입
+
+#### 적용 결과
+
+```bash
+$ docker compose ps
+NAME           IMAGE              SERVICE   STATUS                            PORTS
+codyssey-api   nginx:alpine       api       Up 6 seconds                      80/tcp
+codyssey-web   codyssey-web:1.0   web       Up 6 seconds (health: starting)   0.0.0.0:8090->80/tcp
+```
+
+#### 확인
+- `docker-compose.yml` 어디에도 `8090`이라는 값이 없음에도 컨테이너가 8090으로 공개됨 → 포트 값의 출처는 설정 파일이 아닌 `.env`
+- 포트 변경에 이미지 재빌드 불필요 → 설정과 코드의 분리
+- `Dockerfile`의 `ENV APP_ENV=dev`는 이미지에 굳는 기본값, Compose의 `environment`는 실행 시 주입되는 값
+- `docker compose config`로 변수 대입이 끝난 최종 설정을 실행 전에 확인 가능
+- 실제 값이 담긴 `.env`는 미커밋, 형식만 담은 `.env.example`만 저장소에 포함
+
+### 14-3. Compose 운영 명령
+
+#### 목적
+`up` / `ps` / `logs` / `stop` / `start` / `down`으로 상태를 확인하는 루틴 수행
+
+```bash
+$ docker compose logs web
+codyssey-web  | /docker-entrypoint.sh: Configuration complete; ready for start up
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: nginx/1.31.3
+codyssey-web  | 2026/08/02 23:51:02 [notice] 1#1: start worker processes
+
+$ docker compose stop
+ ✔ Container codyssey-web  Stopped
+
+$ docker compose ps
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+$ docker compose start
+ ✔ Container codyssey-web  Started
+
+$ docker compose down
+ ✔ Container codyssey-web         Removed
+ ✔ Network codyssey-e1-1_default  Removed
+
+$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+#### 확인
+- `docker compose ps`는 해당 프로젝트 서비스만 표시 → `docker ps`와 조회 범위가 다름
+- `stop` 후 목록이 비고 `start`로 동일 컨테이너 재기동 → 컨테이너 재생성 아님
+- `down` 한 번으로 컨테이너와 네트워크가 함께 제거됨. `docker rm` 별도 수행 불필요
+
+### 14-4. 멀티 컨테이너 및 컨테이너 간 통신
+
+#### 목적
+서비스 2개를 함께 실행하고, 호스트에 포트를 열지 않은 서비스와도 통신되는지 확인
+
+#### docker-compose.yml (서비스 추가)
+
+```yaml
+  api:
+    image: nginx:alpine
+    container_name: codyssey-api
+```
+
+`api`에는 `ports` 미지정 — 호스트에는 비공개, 컨테이너 간에만 접근 가능한 상태로 구성
+
+```bash
+$ docker compose up -d
+[+] Running 3/3
+ ✔ Network codyssey-e1-1_default  Created
+ ✔ Container codyssey-api         Started
+ ✔ Container codyssey-web         Started
+
+$ docker compose ps
+NAME           IMAGE              SERVICE   STATUS                            PORTS
+codyssey-api   nginx:alpine       api       Up 6 seconds                      80/tcp
+codyssey-web   codyssey-web:1.0   web       Up 6 seconds (health: starting)   0.0.0.0:8090->80/tcp
+
+$ docker compose exec web wget -qO- http://api/ | head -5
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+
+$ docker compose logs api
+codyssey-api  | 192.168.97.3 - - [03/Aug/2026:01:57:15 +0000] "GET / HTTP/1.1" 200 896 "-" "Wget" "-"
+```
+
+#### 확인
+- `api`의 `PORTS`는 `80/tcp`뿐 — 호스트 매핑(`0.0.0.0:...->`)이 없어 브라우저로는 접근 불가
+- 그럼에도 `web`에서 IP 없이 서비스명 `api`만으로 응답 수신 → Compose 기본 네트워크의 서비스 디스커버리 동작
+- 요청을 보낸 쪽(`wget` 응답)과 받은 쪽(`logs api`의 `"GET / HTTP/1.1" 200`)에 증거가 각각 잔존
+- 접속 출발지 `192.168.97.3`은 호스트가 아닌 `codyssey-e1-1_default` 네트워크 내부 주소
+
+### 14-5. GitHub SSH 키 설정
+
+#### 목적
+HTTPS 토큰 방식 대신 SSH 키로 인증하도록 전환
+
+#### 키 생성
+
+```bash
+$ ssh-keygen -t ed25519 -C "unji09@github"
+Generating public/private ed25519 key pair.
+Your identification has been saved in /Users/unji09070981/.ssh/id_ed25519
+Your public key has been saved in /Users/unji09070981/.ssh/id_ed25519.pub
+
+$ ls -al ~/.ssh
+-rw-------   1 unji09070981  unji09070981  399  8  3 11:03 id_ed25519
+-rw-r--r--   1 unji09070981  unji09070981   95  8  3 11:03 id_ed25519.pub
+
+$ cat ~/.ssh/id_ed25519.pub
+ssh-ed25519 **************** unji09@github
+```
+
+공개키만 GitHub → Settings → SSH and GPG keys에 등록. 개인키(`id_ed25519`)는 미노출
+
+#### 인증 확인
+
+```bash
+$ ssh -T git@github.com
+The authenticity of host 'github.com (20.200.245.247)' can't be established.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Hi unji09! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+#### 원격 주소 전환
+
+**[변경 전]** HTTPS
+
+```bash
+$ git remote -v
+origin	https://github.com/unji09/Codyssey-E1-1 (fetch)
+origin	https://github.com/unji09/Codyssey-E1-1 (push)
+```
+
+**[변경 후]** SSH
+
+```bash
+$ git remote set-url origin git@github.com:unji09/Codyssey-E1-1.git
+
+$ git remote -v
+origin	git@github.com:unji09/Codyssey-E1-1.git (fetch)
+origin	git@github.com:unji09/Codyssey-E1-1.git (push)
+```
+
+#### 확인
+- `Hi unji09!` → 등록한 공개키로 계정 식별 성공. 뒤 문구는 셸 접속 미제공을 알리는 정상 메시지
+- 원격 주소가 `https://github.com/`(슬래시)에서 `git@github.com:`(콜론) 형식으로 전환됨
+- 개인키 권한 `-rw-------`(600) 유지 — 권한이 느슨하면 ssh가 키 사용을 거부
+- 공개키 본문은 문서에서 마스킹 처리
+
+---
+
+## 15. 트러블슈팅
 
 ### 1. 컨테이너 이름 중복 충돌
 
